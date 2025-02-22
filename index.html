@@ -1,0 +1,210 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creador de Tiendas Online</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Crea tu Tienda Online</h1>
+      <nav>
+        <button onclick="showSection('config')">Configuración</button>
+        <button onclick="showSection('design')">Diseño</button>
+        <button onclick="showSection('products')">Productos</button>
+        <button onclick="showSection('preview')">Vista Previa</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="config" class="section active">
+        <h2>Configuración de la Tienda</h2>
+        <div class="config-form">
+          <div class="config-section">
+            <h3>Información General</h3>
+            <input type="text" id="storeName" placeholder="Nombre de la tienda" onchange="updateStoreInfo()">
+            <textarea id="storeDescription" placeholder="Descripción de la tienda" onchange="updateStoreInfo()"></textarea>
+            <input type="text" id="storeAddress" placeholder="Dirección" onchange="updateStoreInfo()">
+            <input type="tel" id="storePhone" placeholder="Teléfono" onchange="updateStoreInfo()">
+          </div>
+          
+          <div class="config-section">
+            <h3>Redes Sociales</h3>
+            <div class="social-input">
+              <i class="fab fa-facebook"></i>
+              <input type="url" id="facebookUrl" placeholder="URL de Facebook" onchange="updateStoreInfo()">
+            </div>
+            <div class="social-input">
+              <i class="fab fa-instagram"></i>
+              <input type="url" id="instagramUrl" placeholder="URL de Instagram" onchange="updateStoreInfo()">
+            </div>
+            <div class="social-input">
+              <i class="fab fa-twitter"></i>
+              <input type="url" id="twitterUrl" placeholder="URL de Twitter" onchange="updateStoreInfo()">
+            </div>
+            <div class="social-input">
+              <i class="fab fa-whatsapp"></i>
+              <input type="tel" id="whatsappNumber" placeholder="Número de WhatsApp" onchange="updateStoreInfo()">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="design" class="section">
+        <h2>Diseño de tu Tienda</h2>
+        <div class="design-options">
+          <div class="option">
+            <label>Color Principal:</label>
+            <input type="color" id="mainColor" onchange="updateStoreStyle()">
+          </div>
+
+          <div class="option">
+            <label>Estilo:</label>
+            <select id="storeStyle" onchange="updateStoreStyle()">
+              <option value="modern">Moderno</option>
+              <option value="classic">Clásico</option>
+              <option value="minimal">Minimalista</option>
+            </select>
+          </div>
+
+          <div class="option">
+            <label>Banner de la Tienda:</label>
+            <div class="image-upload">
+              <label for="bannerImage" class="image-upload-label">
+                <div id="bannerPreview" class="image-upload-preview">
+                  <span>Haga clic para subir banner</span>
+                </div>
+              </label>
+              <input type="file" id="bannerImage" accept="image/*" onchange="previewBanner(event)" style="display: none;">
+            </div>
+          </div>
+
+          <div class="option">
+            <label>Logo de la Tienda:</label>
+            <div class="image-upload">
+              <label for="logoImage" class="image-upload-label">
+                <div id="logoPreview" class="image-upload-preview">
+                  <span>Haga clic para subir logo</span>
+                </div>
+              </label>
+              <input type="file" id="logoImage" accept="image/*" onchange="previewLogo(event)" style="display: none;">
+            </div>
+          </div>
+
+          <div class="option">
+            <label>Posición del Logo:</label>
+            <div class="logo-position-grid">
+              <div class="position-option" data-position="top-left" onclick="setLogoPosition('top-left')">
+                Superior Izquierda
+              </div>
+              <div class="position-option" data-position="top-center" onclick="setLogoPosition('top-center')">
+                Superior Centro
+              </div>
+              <div class="position-option" data-position="top-right" onclick="setLogoPosition('top-right')">
+                Superior Derecha
+              </div>
+              <div class="position-option" data-position="center-left" onclick="setLogoPosition('center-left')">
+                Centro Izquierda
+              </div>
+              <div class="position-option active" data-position="center" onclick="setLogoPosition('center')">
+                Centro
+              </div>
+              <div class="position-option" data-position="center-right" onclick="setLogoPosition('center-right')">
+                Centro Derecha
+              </div>
+              <div class="position-option" data-position="bottom-left" onclick="setLogoPosition('bottom-left')">
+                Inferior Izquierda
+              </div>
+              <div class="position-option" data-position="bottom-center" onclick="setLogoPosition('bottom-center')">
+                Inferior Centro
+              </div>
+              <div class="position-option" data-position="bottom-right" onclick="setLogoPosition('bottom-right')">
+                Inferior Derecha
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="products" class="section">
+        <h2>Gestión de Productos</h2>
+        <div class="product-form">
+          <div class="image-upload-container">
+            <label for="productImage" class="image-upload-label">
+              <div id="imagePreview" class="image-preview">
+                <span>Haga clic para subir imagen</span>
+              </div>
+            </label>
+            <input type="file" id="productImage" accept="image/*" onchange="previewImage(event)" style="display: none;">
+          </div>
+          <input type="text" id="productName" placeholder="Nombre del producto">
+          <input type="number" id="productPrice" placeholder="Precio">
+          <input type="text" id="productDesc" placeholder="Descripción">
+          <button onclick="addProduct()">Agregar Producto</button>
+        </div>
+        <div id="productList" class="product-list"></div>
+      </section>
+
+      <section id="preview" class="section">
+        <div class="preview-header">
+          <h2>Vista Previa de tu Tienda</h2>
+          <div class="preview-actions">
+            <button onclick="publishStore()" class="publish-button">
+              <i class="fas fa-globe"></i> Publicar Tienda
+            </button>
+            <button onclick="backToEdit()" class="back-button">
+              <i class="fas fa-arrow-left"></i> Volver a editar
+            </button>
+          </div>
+        </div>
+        <div id="storePreview" class="store-preview">
+          <header id="previewHeader">
+            <h1 id="previewStoreName">Mi Tienda</h1>
+            <p id="previewDescription" class="store-description"></p>
+          </header>
+          <div id="previewProducts" class="preview-products"></div>
+          <footer id="previewFooter" class="store-footer">
+            <div class="store-info">
+              <p id="previewAddress"></p>
+              <p id="previewPhone"></p>
+            </div>
+            <div class="social-links">
+              <a id="previewFacebook" target="_blank"><i class="fab fa-facebook"></i></a>
+              <a id="previewInstagram" target="_blank"><i class="fab fa-instagram"></i></a>
+              <a id="previewTwitter" target="_blank"><i class="fab fa-twitter"></i></a>
+              <a id="previewWhatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </footer>
+        </div>
+      </section>
+    </main>
+  </div>
+  <!-- Modal para publicación -->
+  <div id="publishModal" class="modal">
+    <div class="modal-content">
+      <h2>Publicar Tienda</h2>
+      <div class="publish-steps">
+        <div class="step">
+          <i class="fas fa-check-circle"></i>
+          <span>Información básica completada</span>
+        </div>
+        <div class="step">
+          <i class="fas fa-check-circle"></i>
+          <span>Productos agregados</span>
+        </div>
+        <div class="step">
+          <i class="fas fa-check-circle"></i>
+          <span>Diseño personalizado</span>
+        </div>
+      </div>
+      <div class="publish-actions">
+        <button onclick="confirmPublish()" class="confirm-publish">Confirmar Publicación</button>
+        <button onclick="closeModal()" class="cancel-publish">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
